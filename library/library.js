@@ -1,3 +1,7 @@
+const title = document.querySelector('#title');
+const author = document.querySelector('#author');
+const pages = document.querySelector('#pages');
+
 let myLibrary = [];
 
 class Book {
@@ -37,7 +41,7 @@ function toggleCard() {
 
 function deleteCard() {
     let items = bookContainer.querySelectorAll('.card');
-    items.forEach(item => {g
+    items.forEach(item => {
         item.addEventListener('click', e => {
             if(e.target.classList.contains('trash-icon')) {
                 let cardIndex = item.getAttribute('data-index');
@@ -121,10 +125,24 @@ function render() {
 
 let form = document.querySelector('form'); 
 form.addEventListener('submit', e => {
-    e.preventDefault();
-    addBookToLibrary();
-    form.reset();
-    closeModal();
-    deleteCard();
-    toggleCard();
+    if (title.validity.valueMissing) {
+        title.setCustomValidity('Your book has no title??');
+        title.reportValidity();
+        e.preventDefault();
+    } else if (author.validity.valueMissing) {
+        author.setCustomValidity('Your book has no author??');
+        author.reportValidity();
+        e.preventDefault();
+    } else if (pages.validity.valueMissing) {
+        pages.setCustomValidity('Your book has no pages??');
+        pages.reportValidity();
+        e.preventDefault();
+    } else {
+        e.preventDefault();
+        addBookToLibrary();
+        form.reset();
+        closeModal();
+        deleteCard();
+        toggleCard();
+    }
 });
